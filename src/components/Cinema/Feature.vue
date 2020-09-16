@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'City'
+  name: 'Feature'
 }
 </script>
 

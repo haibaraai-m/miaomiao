@@ -4,19 +4,19 @@ export default {
   children:[
     {
       path:'city',
-      component:()=>import('@/components/Cinema/City')
+      component:()=>import('@/components/Movie/City')
     },
     {
       path:'nowPlaying',
-      component:()=>import('@/components/Cinema/NowPlaying')
+      component:()=>import('@/components/Movie/NowPlaying')
     },
     {
       path:'soonPlaying',
-      component:()=>import('@/components/Cinema/SoonPlaying')
+      component:()=>import('@/components/Movie/SoonPlaying')
     },
     {
       path:'search',
-      component:()=>import('@/components/Cinema/Search')
+      component:()=>import('@/components/Movie/Search')
     },
     {
       path:'',
