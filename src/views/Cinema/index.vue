@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="main">
     <Header Title="喵喵影院"></Header>
     <TabBar></TabBar>
   </div>

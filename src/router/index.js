@@ -12,7 +12,11 @@ const router = new VueRouter({
   routes:[
     MovieRouter,
     MineRouter,
-    CinemaRouter
+    CinemaRouter,
+    {
+      path:'/*',
+      redirect:'/movie'
+    }
   ]
 })
 

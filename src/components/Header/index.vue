@@ -1,13 +1,12 @@
 <template>
-  <div id="main">
-    <header id="header">
-      <h1>{{Title}}</h1>
-    </header>
-  </div>
+  <header id="header">
+    <h1>{{Title}}</h1>
+  </header>
 </template>
 
 <script>
 export default {
+  name: 'Header',
   props: {
     Title: {
       type: String,

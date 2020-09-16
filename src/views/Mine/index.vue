@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="main">
     <Header Title="我的喵喵"></Header>
     <TabBar></TabBar>
   </div>
