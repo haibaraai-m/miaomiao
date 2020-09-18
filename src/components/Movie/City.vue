@@ -4,21 +4,27 @@
       <div class="city_hot">
         <h2>热门城市</h2>
         <ul class="clearfix">
-          <li v-for="(hot_city) in hot_list" :key="hot_city.id">{{hot_city.nm}}</li>
+          <li v-for="(hot_city) in hot_list"
+              :key="hot_city.id">{{hot_city.nm}}</li>
         </ul>
       </div>
-      <div class="city_sort" ref="city_sort">
-        <div v-for="(city_list) in city_lists" :key="city_list.index">
+      <div class="city_sort"
+           ref="city_sort">
+        <div v-for="(city_list) in city_lists"
+             :key="city_list.index">
           <h2>{{city_list.index}}</h2>
           <ul>
-            <li v-for="(city) in city_list.list" :key="city.id">{{city.nm}}</li>
+            <li v-for="(city) in city_list.list"
+                :key="city.id">{{city.nm}}</li>
           </ul>
         </div>
       </div>
     </div>
     <div class="city_index">
       <ul>
-        <li v-for="(city_sort,index) in city_lists" :key="city_sort.index" @touchstart="handleToIndex(index)">{{city_sort.index}}</li>
+        <li v-for="(city_sort,index) in city_lists"
+            :key="city_sort.index"
+            @touchstart="handleToIndex(index)">{{city_sort.index}}</li>
       </ul>
     </div>
   </div>
@@ -33,13 +39,13 @@
 
 export default {
   name: 'City',
-  data() {
+  data () {
     return {
       city_lists: [],
       hot_list: [],
     };
   },
-  mounted() {
+  mounted () {
     this.axios.get('/dianying/cities.json').then((res) => {
       var city_info = res.data.cts;
       var { city_lists, hot_list } = this.formatCityList(city_info);
@@ -56,7 +62,7 @@ export default {
           id: '1'
           }...]
         } */
-    formatCityList(city_info) {
+    formatCityList (city_info) {
       var city_lists = [];
       var hot_list = [];
 
@@ -68,7 +74,7 @@ export default {
             if (first_letter === city_lists[j].index) {
               city_lists[j].list.push({
                 nm: city_info[i].nm,
-                id: city_info[i].id
+                id: city_info[i].id,
               });
             }
           }
@@ -79,7 +85,7 @@ export default {
             list: [
               {
                 nm: city_info[i].nm,
-                id: city_info[i].id
+                id: city_info[i].id,
               },
             ],
           });
@@ -96,7 +102,7 @@ export default {
         }
       });
 
-      function toCom(first_letter) {
+      function toCom (first_letter) {
         for (var i = 0; i < city_lists.length; i++) {
           if (first_letter === city_lists[i].index) {
             return true;
@@ -109,15 +115,13 @@ export default {
         hot_list.push(city_info[i]);
       }
 
-      console.log(city_lists);
-
       return {
         city_lists,
-        hot_list,
+        hot_list
       };
     },
 
-    handleToIndex(index) {
+    handleToIndex (index) {
       var h2 = this.$refs.city_sort.getElementsByTagName('h2');
       this.$refs.city_sort.parentNode.scrollTop = h2[index].offsetTop;
     },

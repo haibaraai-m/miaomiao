@@ -1,101 +1,25 @@
 <template>
   <div class="movie_body">
     <ul>
-      <li>
-        <div class="pic_show"><img src="/images/movie_1.jpg"></div>
+      <li v-for="(item) in movieList"
+          :key="item.id">
+        <div class="pic_show"><img :src="item.img | setWH('@1l_1e_1c_128w_180h')"></div>
         <div class="info_list">
-          <h2>无名之辈</h2>
-          <p><span class="person">17746</span> 人想看</p>
-          <p>主演: 陈建斌,任素汐,潘斌龙</p>
-          <p>2018-11-30上映</p>
+          <h2>{{item.nm}}</h2>
+          <p><span class="person">{{item.wish}}</span> 人想看</p>
+          <p>{{item.star}}</p>
+          <p>{{item.rt}}上映</p>
         </div>
-        <div class="btn_pre">
-          预售
-        </div>
-      </li>
-      <li>
-        <div class="pic_show"><img src="/images/movie_2.jpg"></div>
-        <div class="info_list">
-          <h2>毒液：致命守护者</h2>
-          <p><span class="person">2346</span> 人想看</p>
-          <p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">
-          预售
-        </div>
-      </li>
-      <li>
-        <div class="pic_show"><img src="/images/movie_1.jpg"></div>
-        <div class="info_list">
-          <h2>无名之辈</h2>
-          <p><span class="person">17746</span> 人想看</p>
-          <p>主演: 陈建斌,任素汐,潘斌龙</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">
-          预售
-        </div>
-      </li>
-      <li>
-        <div class="pic_show"><img src="/images/movie_2.jpg"></div>
-        <div class="info_list">
-          <h2>毒液：致命守护者</h2>
-          <p><span class="person">2346</span> 人想看</p>
-          <p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">
-          预售
-        </div>
-      </li>
-      <li>
-        <div class="pic_show"><img src="/images/movie_1.jpg"></div>
-        <div class="info_list">
-          <h2>无名之辈</h2>
-          <p><span class="person">17746</span> 人想看</p>
-          <p>主演: 陈建斌,任素汐,潘斌龙</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">
-          预售
-        </div>
-      </li>
-      <li>
-        <div class="pic_show"><img src="/images/movie_2.jpg"></div>
-        <div class="info_list">
-          <h2>毒液：致命守护者</h2>
-          <p><span class="person">2346</span> 人想看</p>
-          <p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">
-          预售
-        </div>
-      </li>
-      <li>
-        <div class="pic_show"><img src="/images/movie_1.jpg"></div>
-        <div class="info_list">
-          <h2>无名之辈</h2>
-          <p><span class="person">17746</span> 人想看</p>
-          <p>主演: 陈建斌,任素汐,潘斌龙</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">
-          预售
-        </div>
-      </li>
-      <li>
-        <div class="pic_show"><img src="/images/movie_2.jpg"></div>
-        <div class="info_list">
-          <h2>毒液：致命守护者</h2>
-          <p><span class="person">2346</span> 人想看</p>
-          <p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-          <p>2018-11-30上映</p>
-        </div>
-        <div class="btn_pre">
-          预售
-        </div>
+        <template v-if="item.showInfo">
+          <div class="btn_pre">
+            预售
+          </div>
+        </template>
+        <template v-else>
+          <div class="btn_wish">
+            想看
+          </div>
+        </template>
       </li>
     </ul>
   </div>
@@ -103,7 +27,21 @@
 
 <script>
 export default {
-  name: 'SoonPlaying'
+  name: 'SoonPlaying',
+  data () {
+    return {
+      movieList: []
+    }
+  },
+  mounted () {
+    this.axios.get('/ajax/comingList?ci=1&token=&limit=10')
+      .then(res => {
+        this.movieList = res.data.coming
+      })
+      .catch(err => {
+        console.error(err);
+      })
+  },
 }
 </script>
 
@@ -174,7 +112,8 @@ export default {
 }
 
 .movie_body .btn_mall,
-.movie_body .btn_pre {
+.movie_body .btn_pre,
+.movie_body .btn_wish {
   width: 47px;
   height: 27px;
   line-height: 28px;
@@ -188,5 +127,8 @@ export default {
 
 .movie_body .btn_pre {
   background-color: #3c9fe6;
+}
+.movie_body .btn_wish {
+  background-color: #faaf00;
 }
 </style>
