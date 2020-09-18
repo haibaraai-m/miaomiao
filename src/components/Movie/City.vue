@@ -4,14 +4,14 @@
       <div class="city_hot">
         <h2>热门城市</h2>
         <ul class="clearfix">
-          <li v-for="(hot_city) in hot_list" :key="hot_city.code">{{hot_city.name}}</li>
+          <li v-for="(hot_city) in hot_list" :key="hot_city.id">{{hot_city.nm}}</li>
         </ul>
       </div>
       <div class="city_sort" ref="city_sort">
         <div v-for="(city_list) in city_lists" :key="city_list.index">
           <h2>{{city_list.index}}</h2>
           <ul>
-            <li v-for="(city) in city_list.list" :key="city.code">{{city.name}}</li>
+            <li v-for="(city) in city_list.list" :key="city.id">{{city.nm}}</li>
           </ul>
         </div>
       </div>
@@ -29,7 +29,7 @@
  *汉字转换库，方便城市中文转换为拼音
  * https://github.com/theajack/cnchar
  */
-import cnchar from 'cnchar';
+/* import cnchar from 'cnchar'; */
 
 export default {
   name: 'City',
@@ -40,19 +40,12 @@ export default {
     };
   },
   mounted() {
-    this.axios
-      .get(
-        '/api/address/list?app_id=rrmudqfoponepkok&app_secret=RVBzQWF4RDVpYzFXNmM5SVl5dHpHQT09'
-      )
-      .then((res) => {
-        var msg = res.data.code;
-        if (msg === 1) {
-          var city_info = res.data.data;
-          var { city_lists, hot_list } = this.formatCityList(city_info);
-          this.city_lists = city_lists;
-          this.hot_list = hot_list;
-        }
-      });
+    this.axios.get('/dianying/cities.json').then((res) => {
+      var city_info = res.data.cts;
+      var { city_lists, hot_list } = this.formatCityList(city_info);
+      this.city_lists = city_lists;
+      this.hot_list = hot_list;
+    });
   },
   methods: {
     /* 格式如下：
@@ -60,7 +53,7 @@ export default {
         index: 'A',
         list[{
           name: '北京',
-          code: '110000'
+          id: '1'
           }...]
         } */
     formatCityList(city_info) {
@@ -68,15 +61,14 @@ export default {
       var hot_list = [];
 
       for (var i = 0; i < city_info.length; i++) {
-        var first_letter = city_info[i].name.spell().substring(0, 1);
-
+        var first_letter = city_info[i].py.substring(0, 1);
         if (toCom(first_letter)) {
           //已存在,累积添加
           for (var j = 0; j < city_lists.length; j++) {
             if (first_letter === city_lists[j].index) {
               city_lists[j].list.push({
-                name: city_info[i].name,
-                code: city_info[i].code,
+                nm: city_info[i].nm,
+                id: city_info[i].id
               });
             }
           }
@@ -86,8 +78,8 @@ export default {
             index: first_letter,
             list: [
               {
-                name: city_info[i].name,
-                code: city_info[i].code,
+                nm: city_info[i].nm,
+                id: city_info[i].id
               },
             ],
           });
@@ -113,11 +105,11 @@ export default {
         return false;
       }
 
-      for (var i = 0; i < city_info.length; i++) {
-        if (i % 7 === 0) {
-          hot_list.push(city_info[i]);
-        }
+      for (var i = 0; i < 11; i++) {
+        hot_list.push(city_info[i]);
       }
+
+      console.log(city_lists);
 
       return {
         city_lists,
