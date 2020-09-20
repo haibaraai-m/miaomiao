@@ -11,6 +11,11 @@ Vue.filter('setWH', (url, arg) => {
   return (url.replace(/w\.h/, '')).concat(arg);
 
 })
+Vue.filter('setWHC', (url, arg) => {
+  return url.replace(/w\.h/, arg);
+
+})
+
 
 Vue.config.productionTip = false
 
