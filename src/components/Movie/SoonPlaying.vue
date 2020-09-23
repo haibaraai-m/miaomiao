@@ -1,27 +1,29 @@
 <template>
   <div class="movie_body">
-    <ul>
-      <li v-for="(item) in movieList"
-          :key="item.id">
-        <div class="pic_show"><img :src="item.img | setWH('@1l_1e_1c_128w_180h')"></div>
-        <div class="info_list">
-          <h2>{{item.nm}}</h2>
-          <p><span class="person">{{item.wish}}</span> 人想看</p>
-          <p>{{item.star}}</p>
-          <p>{{item.rt}}上映</p>
-        </div>
-        <template v-if="item.showInfo">
-          <div class="btn_pre">
-            预售
+    <Scroller :data="movieList">
+      <ul>
+        <li v-for="(item) in movieList"
+            :key="item.id">
+          <div class="pic_show"><img :src="item.img | setWH('@1l_1e_1c_128w_180h')"></div>
+          <div class="info_list">
+            <h2>{{item.nm}}</h2>
+            <p><span class="person">{{item.wish}}</span> 人想看</p>
+            <p>{{item.star}}</p>
+            <p>{{item.rt}}上映</p>
           </div>
-        </template>
-        <template v-else>
-          <div class="btn_wish">
-            想看
-          </div>
-        </template>
-      </li>
-    </ul>
+          <template v-if="item.showInfo">
+            <div class="btn_pre">
+              预售
+            </div>
+          </template>
+          <template v-else>
+            <div class="btn_wish">
+              想看
+            </div>
+          </template>
+        </li>
+      </ul>
+    </Scroller>
   </div>
 </template>
 

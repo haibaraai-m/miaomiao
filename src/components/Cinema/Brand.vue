@@ -1,27 +1,29 @@
 <template>
   <div class="cinema_body">
-    <ul>
-      <li v-for="item in cinemaList"
-          :key="item.id">
-        <div>
-          <span>{{item.nm}}</span>
-          <span class="q"><span class="price">{{item.sellPrice}}</span> 元起</span>
-        </div>
-        <div class="address">
-          <span>{{item.addr}}</span>
-          <span>{{item.distance}}</span>
-        </div>
-        <div class="card">
-          <span v-for="(value,key) in item.tag"
-                :key="key">
-            <div :class="key | formatColor(key)"
-                 v-if="value===1">
-              {{key | formatKey(key)}}
-            </div>
-          </span>
-        </div>
-      </li>
-    </ul>
+    <Scroller :data="cinemaList">
+      <ul>
+        <li v-for="item in cinemaList"
+            :key="item.id">
+          <div>
+            <span>{{item.nm}}</span>
+            <span class="q"><span class="price">{{item.sellPrice}}</span> 元起</span>
+          </div>
+          <div class="address">
+            <span>{{item.addr}}</span>
+            <span>{{item.distance}}</span>
+          </div>
+          <div class="card">
+            <span v-for="(value,key) in item.tag"
+                  :key="key">
+              <div :class="key | formatColor(key)"
+                   v-if="value===1">
+                {{key | formatKey(key)}}
+              </div>
+            </span>
+          </div>
+        </li>
+      </ul>
+    </Scroller>
   </div>
 </template>
 

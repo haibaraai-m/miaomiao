@@ -16,6 +16,9 @@ Vue.filter('setWHC', (url, arg) => {
 
 })
 
+import Scroller from '@/components/Scroller'
+Vue.component('Scroller', Scroller)
+
 
 Vue.config.productionTip = false
 

@@ -1,45 +1,71 @@
 <template>
   <div class="movie_body">
-    <ul>
-      <li v-for="(item) in movieList"
-          :key="item.id">
-        <div class="pic_show"><img :src="item.img | setWH('@1l_1e_1c_128w_180h')"></div>
-        <div class="info_list">
-          <h2>{{item.nm}}
-            <img v-if="(item.version).includes('2')"
-                 src="@/assets/version.v2d.imax.png">
-            <img v-else-if="(item.version).includes('3')"
-                 src="@/assets/version.v3d.imax.png">
-          </h2>
-
-          <p>观众评 <span class="grade"
-                  v-if="item.sc">{{item.sc}}</span>
-            <span class="no-score"
-                  v-else>暂无评分</span>
-          </p>
-          <p>主演: {{item.star}}</p>
-          <p>{{item.showInfo}}</p>
-        </div>
-        <div class="btn_mall">
-          购票
-        </div>
-      </li>
-    </ul>
+    <Scroller :data="movieList"
+              :pulldown="pulldown"
+              :listenScroll="listenScroll"
+              @scroll="loadData"
+              @pulldown="loadDataEnd">
+      <ul>
+        <li class="pullDown">{{ pullDownMsg }}</li>
+        <li v-for="(item) in movieList"
+            :key="item.id">
+          <div class="pic_show"
+               @click="handleToDetails"><img :src="item.img | setWH('@1l_1e_1c_128w_180h')"></div>
+          <div class="info_list">
+            <h2>{{item.nm}}
+              <img v-if="(item.version).includes('2')"
+                   src="@/assets/version.v2d.imax.png">
+              <img v-else-if="(item.version).includes('3')"
+                   src="@/assets/version.v3d.imax.png">
+            </h2>
+            <p>观众评 <span class="grade"
+                    v-if="item.sc">{{item.sc}}</span>
+              <span class="no-score"
+                    v-else>暂无评分</span>
+            </p>
+            <p>主演: {{item.star}}</p>
+            <p>{{item.showInfo}}</p>
+          </div>
+          <div class="btn_mall">
+            购票
+          </div>
+        </li>
+      </ul>
+    </Scroller>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'NowPlaying',
   data () {
     return {
-      movieList: []
+      movieList: [],
+      listenScroll: true,
+      pulldown: true,
+      pullDownMsg: ''
     };
   },
   mounted () {
-    this.axios.get('/ajax/movieOnInfoList').then((res => {
-      this.movieList = res.data.movieList;
-    }));
+    this.loadDataEnd();
+  },
+  methods: {
+    loadData (ev) {
+      this.pullDownMsg = ev
+    },
+    loadDataEnd (ev) {
+      this.axios.get('/ajax/movieOnInfoList').then((res => {
+        this.pullDownMsg = ev
+        setTimeout(() => {
+          this.movieList = res.data.movieList;
+          this.pullDownMsg = ''
+        }, 1000);
+      }));
+    },
+    handleToDetails () {
+      console.log('handleToDetails');
+    }
   },
 }
 </script>
@@ -129,5 +155,11 @@ export default {
 .movie_body .no-score {
   font-size: 14px;
   color: #777;
+}
+
+.movie_body .pullDown {
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 </style>

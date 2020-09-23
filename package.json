@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.20.0",
+    "better-scroll": "^2.0.4",
     "cnchar": "^2.2.6",
     "core-js": "^3.6.5",
     "lodash": "^4.17.20",
