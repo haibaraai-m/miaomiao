@@ -57,7 +57,7 @@ export default {
   watch: {
     searchStr: _.debounce(function () {
       this.getResult();
-    }, 500)
+    }, 20)
   },
 }
 </script>

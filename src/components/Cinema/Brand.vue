@@ -1,6 +1,8 @@
 <template>
   <div class="cinema_body">
-    <Scroller :data="cinemaList">
+    <Loading v-if="isLoading"></Loading>
+    <Scroller v-else
+              :data="cinemaList">
       <ul>
         <li v-for="item in cinemaList"
             :key="item.id">
@@ -32,16 +34,18 @@ export default {
   name: 'Brand',
   data () {
     return {
+      isLoading: true,
       cinemaList: []
     }
   },
   mounted () {
     this.axios.get('/ajax/cinemaList?ci=10')
       .then(res => {
-        this.cinemaList = res.data.cinemas;
+        this.cinemaList = res.data.cinemas
+        this.isLoading = false
       })
       .catch(err => {
-        console.error(err);
+        console.error(err)
       })
   },
 

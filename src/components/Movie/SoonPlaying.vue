@@ -1,6 +1,8 @@
 <template>
   <div class="movie_body">
-    <Scroller :data="movieList">
+    <Loading v-if="isLoading"></Loading>
+    <Scroller v-else
+              :data="movieList">
       <ul>
         <li v-for="(item) in movieList"
             :key="item.id">
@@ -32,6 +34,7 @@ export default {
   name: 'SoonPlaying',
   data () {
     return {
+      isLoading: true,
       movieList: []
     }
   },
@@ -39,9 +42,10 @@ export default {
     this.axios.get('/ajax/comingList?ci=1&token=&limit=10')
       .then(res => {
         this.movieList = res.data.coming
+        this.isLoading = false
       })
       .catch(err => {
-        console.error(err);
+        console.error(err)
       })
   },
 }

@@ -1,12 +1,16 @@
 <template>
   <div class="movie_body">
-    <Scroller :data="movieList"
+    <Loading v-if="isLoading"></Loading>
+    <Scroller v-else
+              :data="movieList"
               :pulldown="pulldown"
               :listenScroll="listenScroll"
               @scroll="loadData"
               @pulldown="loadDataEnd">
       <ul>
-        <li class="pullDown">{{ pullDownMsg }}</li>
+        <li class="pullDown">
+          <h4>{{ pullDownMsg }}</h4>
+        </li>
         <li v-for="(item) in movieList"
             :key="item.id">
           <div class="pic_show"
@@ -41,6 +45,7 @@ export default {
   name: 'NowPlaying',
   data () {
     return {
+      isLoading: true,
       movieList: [],
       listenScroll: true,
       pulldown: true,
@@ -58,13 +63,14 @@ export default {
       this.axios.get('/ajax/movieOnInfoList').then((res => {
         this.pullDownMsg = ev
         setTimeout(() => {
-          this.movieList = res.data.movieList;
+          this.movieList = res.data.movieList
+          this.isLoading = false
           this.pullDownMsg = ''
         }, 1000);
       }));
     },
     handleToDetails () {
-      console.log('handleToDetails');
+      console.log('handleToDetails')
     }
   },
 }
@@ -157,7 +163,9 @@ export default {
   color: #777;
 }
 
-.movie_body .pullDown {
+.movie_body ul .pullDown {
+  display: inline;
+  text-align: center;
   margin: 0;
   padding: 0;
   border: none;

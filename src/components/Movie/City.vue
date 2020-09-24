@@ -1,7 +1,9 @@
 <template>
   <div class="city_body">
     <div class="city_list">
-      <Scroller :data="[city_lists, hot_list]"
+      <Loading v-if="isLoading"></Loading>
+      <Scroller v-else
+                :data="[city_lists, hot_list]"
                 ref="city_list">
         <div>
           <div class="city_hot">
@@ -47,6 +49,7 @@ export default {
   name: 'City',
   data () {
     return {
+      isLoading: true,
       city_lists: [],
       hot_list: [],
     };
@@ -57,6 +60,7 @@ export default {
       var { city_lists, hot_list } = this.formatCityList(city_info);
       this.city_lists = city_lists;
       this.hot_list = hot_list;
+      this.isLoading = false
     });
   },
   methods: {
