@@ -41,7 +41,8 @@ export default {
   },
   methods: {
     getResult () {
-      this.axios.get('/ajax/search?kw=' + this.searchStr + '&cityId=1 & stype=-1')
+      var cityId = this.$store.state.city.id;
+      this.axios.get('/ajax/search?kw=' + this.searchStr + '&cityId=' + cityId + '& stype=-1')
         .then(res => {
           var movieList = res.data.movies;
           if (movieList) {

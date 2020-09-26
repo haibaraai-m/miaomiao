@@ -3,18 +3,26 @@
     <Header Title="喵喵电影"></Header>
     <div id="content">
       <div class="movie_menu">
-        <router-link to="city" tag="div" class="city_name">
-          <span>大连</span><i class="iconfont icon-lower-triangle"></i>
+        <router-link to="city"
+                     tag="div"
+                     class="city_name">
+          <span>{{ $store.state.city.nm}}</span><i class="iconfont icon-lower-triangle"></i>
         </router-link>
         <div class="hot_swtich">
-          <router-link to="nowPlaying" tag="div" class="hot_item">
+          <router-link to="nowPlaying"
+                       tag="div"
+                       class="hot_item">
             正在热映
           </router-link>
-          <router-link to="soonPlaying" tag="div" class="hot_item">
+          <router-link to="soonPlaying"
+                       tag="div"
+                       class="hot_item">
             即将上映
           </router-link>
         </div>
-        <router-link to="search" tag="div" class="search_entry">
+        <router-link to="search"
+                     tag="div"
+                     class="search_entry">
           <i class="iconfont icon-sousuo"></i>
         </router-link>
       </div>

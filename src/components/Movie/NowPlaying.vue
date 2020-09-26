@@ -49,10 +49,11 @@ export default {
       movieList: [],
       listenScroll: true,
       pulldown: true,
-      pullDownMsg: ''
+      pullDownMsg: '',
+      preCityId: -1
     };
   },
-  mounted () {
+  activated () {
     this.loadDataEnd();
   },
   methods: {
@@ -60,17 +61,24 @@ export default {
       this.pullDownMsg = ev
     },
     loadDataEnd (ev) {
-      this.axios.get('/ajax/movieOnInfoList').then((res => {
-        this.pullDownMsg = ev
+      var cityId = this.$store.state.city.id;
+      if (this.preCityId === cityId) {
+        this.pullDownMsg = '';
+        return;
+      }
+      this.isLoading = true;
+      this.axios.get('/ajax/movieOnInfoList?ci=' + cityId).then((res => {
+        this.pullDownMsg = ev;
         setTimeout(() => {
-          this.movieList = res.data.movieList
-          this.isLoading = false
-          this.pullDownMsg = ''
+          this.movieList = res.data.movieList;
+          this.preCityId = cityId;
+          this.isLoading = false;
+          this.pullDownMsg = '';
         }, 1000);
       }));
     },
     handleToDetails () {
-      console.log('handleToDetails')
+      console.log('handleToDetails');
     }
   },
 }

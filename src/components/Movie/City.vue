@@ -9,8 +9,9 @@
           <div class="city_hot">
             <h2>热门城市</h2>
             <ul class="clearfix">
-              <li v-for="(hot_city) in hot_list"
-                  :key="hot_city.id">{{hot_city.nm}}</li>
+              <li v-for="(item) in hot_list"
+                  :key="item.id"
+                  @click="handleToCity(item.nm,item.id)">{{item.nm}}</li>
             </ul>
           </div>
           <div class="city_sort"
@@ -20,7 +21,8 @@
               <h2>{{city_list.index}}</h2>
               <ul>
                 <li v-for="(city) in city_list.list"
-                    :key="city.id">{{city.nm}}</li>
+                    :key="city.id"
+                    @click="handleToCity(city.nm,city.id)">{{city.nm}}</li>
               </ul>
             </div>
           </div>
@@ -55,13 +57,23 @@ export default {
     };
   },
   mounted () {
-    this.axios.get('/dianying/cities.json').then((res) => {
-      var city_info = res.data.cts;
-      var { city_lists, hot_list } = this.formatCityList(city_info);
-      this.city_lists = city_lists;
-      this.hot_list = hot_list;
-      this.isLoading = false
-    });
+    var city_lists = window.localStorage.getItem('cityLists');
+    var hot_list = window.localStorage.getItem('hotList');
+    if (city_lists && hot_list) {
+      this.city_lists = JSON.parse(city_lists);
+      this.hot_list = JSON.parse(hot_list);
+      this.isLoading = false;
+    } else {
+      this.axios.get('/dianying/cities.json').then((res) => {
+        var city_info = res.data.cts;
+        var { city_lists, hot_list } = this.formatCityList(city_info);
+        this.city_lists = city_lists;
+        this.hot_list = hot_list;
+        this.isLoading = false;
+        window.localStorage.setItem('cityLists', JSON.stringify(city_lists));
+        window.localStorage.setItem('hotList', JSON.stringify(hot_list));
+      });
+    }
   },
   methods: {
     /* 格式如下：
@@ -136,6 +148,13 @@ export default {
       // this.$refs.city_sort.parentNode.scrollTop = h2[index].offsetTop;
       this.$refs.city_list.scrollTo(0, -h2[index].offsetTop)
     },
+
+    handleToCity (nm, id) {
+      this.$store.commit('city/CITY_INFO', { nm, id });
+      window.localStorage.setItem('nowNm', nm);
+      window.localStorage.setItem('nowId', id);
+      this.$router.push('/movie/nowPlaying');
+    }
   },
 };
 </script>

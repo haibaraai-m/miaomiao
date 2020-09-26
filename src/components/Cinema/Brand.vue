@@ -35,14 +35,21 @@ export default {
   data () {
     return {
       isLoading: true,
-      cinemaList: []
+      cinemaList: [],
+      preCityId: -1
     }
   },
-  mounted () {
-    this.axios.get('/ajax/cinemaList?ci=10')
+  activated () {
+    var cityId = this.$store.state.city.id;
+    if (this.preCityId === cityId) {
+      return;
+    }
+    this.isLoading = true;
+    this.axios.get('/ajax/cinemaList?ci=' + cityId)
       .then(res => {
-        this.cinemaList = res.data.cinemas
-        this.isLoading = false
+        this.cinemaList = res.data.cinemas;
+        this.preCityId = cityId;
+        this.isLoading = false;
       })
       .catch(err => {
         console.error(err)
