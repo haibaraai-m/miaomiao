@@ -9,12 +9,11 @@ Vue.prototype.axios = axios;
 /* 图片格式过滤器 */
 Vue.filter('setWH', (url, arg) => {
   return (url.replace(/w\.h/, '')).concat(arg);
+});
 
-})
 Vue.filter('setWHC', (url, arg) => {
   return url.replace(/w\.h/, arg);
-
-})
+});
 
 import Scroller from '@/components/Scroller'
 Vue.component('Scroller', Scroller)

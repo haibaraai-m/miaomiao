@@ -14,9 +14,9 @@
         <li v-for="(item) in movieList"
             :key="item.id">
           <div class="pic_show"
-               @click="handleToDetails"><img :src="item.img | setWH('@1l_1e_1c_128w_180h')"></div>
+               @click="handleToDetails(item.id)"><img :src="item.img | setWH('@1l_1e_1c_128w_180h')"></div>
           <div class="info_list">
-            <h2>{{item.nm}}
+            <h2 @click="handleToDetails(item.id)">{{item.nm}}
               <img v-if="(item.version).includes('2')"
                    src="@/assets/version.v2d.imax.png">
               <img v-else-if="(item.version).includes('3')"
@@ -77,8 +77,8 @@ export default {
         }, 1000);
       }));
     },
-    handleToDetails () {
-      console.log('handleToDetails');
+    handleToDetails (movieId) {
+      this.$router.push('/movie/detail/1/' + movieId);
     }
   },
 }
